@@ -25,4 +25,10 @@ struct Config {
 
     // ===== Part 2: Drawing =====
 
+    bool shadingEnabled = false;
+    bool useSpeedColor = true;
+    float speedMax = 7.5f;
+    glm::vec3 colorStationary = glm::vec3(0.0f, 0.0f, 0.8f);
+    glm::vec3 colorMaxSpeed = glm::vec3(0.8f, 0.0f, 0.0f);
+
 };
