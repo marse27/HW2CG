@@ -24,11 +24,13 @@ struct Config {
     glm::vec3 sphereColor           = glm::vec3(1.0f);
 
     // ===== Part 2: Drawing =====
-
-    bool shadingEnabled = false;
+    //Task 2.1
     bool useSpeedColor = true;
     float speedMax = 7.5f;
     glm::vec3 colorStationary = glm::vec3(0.0f, 0.0f, 0.8f);
     glm::vec3 colorMaxSpeed = glm::vec3(0.8f, 0.0f, 0.0f);
 
+    //Task 2.2
+    bool  shadingEnabled       = false;
+    float ambientCoefficient   = 0.25f;
 };

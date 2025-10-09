@@ -67,6 +67,7 @@ void Menu::drawParticleColorControls() {
     ImGui::SliderFloat("Max speed", &m_config.speedMax, 0.1f, 50.0f, "%.1f");
     ImGui::ColorEdit3("Stationary color", glm::value_ptr(m_config.colorStationary));
     ImGui::ColorEdit3("Max speed color",  glm::value_ptr(m_config.colorMaxSpeed));
+    ImGui::SliderFloat("Ambient coefficient", &m_config.ambientCoefficient, 0.0f, 1.0f, "%.2f");
 }
 
 
