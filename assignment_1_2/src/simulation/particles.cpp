@@ -161,6 +161,10 @@ void ParticlesSimulator::simulate() {
     glUniform1f(simulationPass.getUniformLocation("containerRadius"), config.sphereRadius);
     glUniform1i(simulationPass.getUniformLocation("interParticleCollision"), config.particleInterCollision);
 
+    //Task 3.1
+    glUniform1i(simulationPass.getUniformLocation("uBounceThreshold"), config.bounceThreshold);
+    glUniform1i(simulationPass.getUniformLocation("uBounceFrames"), config.bounceFrames);
+
     // Render fullscreen quad to 'touch' all texels
     utils::renderQuad(simulationPass);
 }
@@ -198,6 +202,10 @@ void ParticlesSimulator::draw(const glm::mat4& viewProjection) {
     glUniform3fv(drawPass.getUniformLocation("uColorStationary"), 1, glm::value_ptr(config.colorStationary));
     glUniform3fv(drawPass.getUniformLocation("uColorMaxSpeed"),   1, glm::value_ptr(config.colorMaxSpeed));
     glUniform1f (drawPass.getUniformLocation("uAmbientCoeff"),    config.ambientCoefficient);
+
+    //Task 3.1
+    glUniform1i (drawPass.getUniformLocation("uUseBounceColor"), config.useBounceColor ? 1 : 0);
+    glUniform3fv(drawPass.getUniformLocation("uBounceColor"), 1, glm::value_ptr(config.bounceColor));
 
     // Render number of instances equal to number of particles
     particleModel.drawInstanced(config.numParticles);

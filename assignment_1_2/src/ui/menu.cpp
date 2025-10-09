@@ -66,8 +66,16 @@ void Menu::drawParticleColorControls() {
     ImGui::Checkbox("Use speed-based color", &m_config.useSpeedColor);
     ImGui::SliderFloat("Max speed", &m_config.speedMax, 0.1f, 50.0f, "%.1f");
     ImGui::ColorEdit3("Stationary color", glm::value_ptr(m_config.colorStationary));
-    ImGui::ColorEdit3("Max speed color",  glm::value_ptr(m_config.colorMaxSpeed));
+    ImGui::ColorEdit3("Max speed color", glm::value_ptr(m_config.colorMaxSpeed));
     ImGui::SliderFloat("Ambient coefficient", &m_config.ambientCoefficient, 0.0f, 1.0f, "%.2f");
+
+    //Task 3.1
+    ImGui::Separator();
+    ImGui::Text("Bounce Coloring");
+    ImGui::Checkbox("Use bounce-based color", &m_config.useBounceColor);
+    ImGui::SliderInt("Bounce threshold", &m_config.bounceThreshold, 1, 50);
+    ImGui::SliderInt("Bounce frames", &m_config.bounceFrames, 1, 240);
+    ImGui::ColorEdit3("Bounce color", glm::value_ptr(m_config.bounceColor));
 }
 
 

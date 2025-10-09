@@ -11,6 +11,9 @@ uniform vec3 containerCenter;
 uniform float containerRadius;
 uniform bool interParticleCollision;
 
+uniform int uBounceThreshold;
+uniform int uBounceFrames;
+
 layout(location = 0) out vec3 finalPosition;
 layout(location = 1) out vec3 finalVelocity;
 layout(location = 2) out vec3 finalBounceData;
@@ -25,6 +28,10 @@ void main() {
         vec3 v_t = texelFetch(previousVelocities, coord, 0).xyz;
         vec3 bounce_t = texelFetch(previousBounceData, coord, 0).xyz;
 
+        float collisionCount = bounce_t.x;
+        float framesLeft = max(bounce_t.y - 1.0, 0.0);
+        bool  hadCollision = false;
+
         const vec3 g = vec3(0.0, -9.81, 0.0);
         float dt = timestep;
 
@@ -35,9 +42,6 @@ void main() {
 
     // ===== Task 1.3 Inter-particle Collision =====
 
-    // ===== Task 1.3: Inter-particle collisions (accumulate & resolve once) =====
-
-    // ===== Task 1.3: Inter-particle collisions (accumulate + single resolve) =====
     if (interParticleCollision) {
         float contactDistance = 2.0 * particleRadius; // center-to-center at contact
 
@@ -78,6 +82,8 @@ void main() {
             // Reflect velocity about the averaged normal (energy-conserving)
             float vDotN = dot(v_next, averageNormal);
             v_next = v_next - 2.0 * vDotN * averageNormal;
+
+            hadCollision = true;
         }
     }
     
@@ -102,8 +108,22 @@ void main() {
 
         float vDotN = dot(v_next, surfaceNormal);
         v_next = v_next - 2.0 * vDotN * surfaceNormal;
+
+        hadCollision = true;
     }
 
     finalPosition = x_next;
     finalVelocity = v_next;
+
+    if (hadCollision) {
+        collisionCount += 1.0;
+    }
+    if (collisionCount >= float(uBounceThreshold)) {
+        framesLeft     = float(uBounceFrames); // start blink
+        collisionCount = 0.0;                  // reset the counter
+    }
+
+    // Store back; z is unused right now
+    finalBounceData = vec3(collisionCount, framesLeft, 0.0);
+
 }
