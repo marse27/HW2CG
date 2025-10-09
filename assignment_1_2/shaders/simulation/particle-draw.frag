@@ -38,7 +38,7 @@ void main() {
         // --- Task 2.2: (optional) simple shading toggle ---
         vec3 finalColor = baseColor;
             if (uShadingEnabled) {
-                vec3 N = normalize(fragNormal);
+                vec3 N = -normalize(fragNormal);
                 vec3 L = normalize(fragPosition - containerCenter); // light at center -> fragment
                 float ndotl = max(dot(N, L), 0.0);
 
