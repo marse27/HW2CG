@@ -13,6 +13,7 @@ private:
     void drawParticleSimControls();
     void drawSphereContainerControls();
     void drawParticleColorControls();
+    void drawParticleBounceControls();
 
     Config& m_config;
     int32_t m_newParticleCount;
