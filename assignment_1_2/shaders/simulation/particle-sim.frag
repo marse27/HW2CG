@@ -23,14 +23,13 @@ void main() {
 
         ivec2 coord = ivec2(gl_FragCoord.xy);
 
-        // Fetch exact texels (no filtering)
         vec3 x_t = texelFetch(previousPositions,  coord, 0).xyz;
         vec3 v_t = texelFetch(previousVelocities, coord, 0).xyz;
         vec3 bounce_t = texelFetch(previousBounceData, coord, 0).xyz;
 
         float collisionCount = bounce_t.x;
         float framesLeft = max(bounce_t.y - 1.0, 0.0);
-        bool  hadCollision = false;
+        bool hadCollision = false;
 
         const vec3 g = vec3(0.0, -9.81, 0.0);
         float dt = timestep;
@@ -43,29 +42,27 @@ void main() {
     // ===== Task 1.3 Inter-particle Collision =====
 
     if (interParticleCollision) {
-        float contactDistance = 2.0 * particleRadius; // center-to-center at contact
+        float contactDistance = 2.0 * particleRadius;
 
         vec3 accumulatedCorrection = vec3(0.0);
-        vec3 accumulatedNormal     = vec3(0.0);
-        int  contactCount          = 0;
+        vec3 accumulatedNormal = vec3(0.0);
+        int contactCount = 0;
 
         int N = int(numParticles);
-        for (int j = 0; j < N; ++j) {
-            if (j == coord.x) continue;
+        for (int j = 0; j < N; j++) {
+            if (j == coord.x) {
+             continue;
+            }
 
-            // Neighbor position from previous state
             vec3 neighborPos = texelFetch(previousPositions, ivec2(j, coord.y), 0).xyz;
 
-            // Vector from neighbor to this particle (using tentative x_next)
-            vec3  delta    = x_next - neighborPos; // neighbor -> current
+            vec3 delta = x_next - neighborPos;
             float distance = length(delta);
 
-            // Overlap?
             if (distance > 0.0 && distance < contactDistance) {
-                vec3  n           = delta / distance;                // contact normal
-                float penetration = contactDistance - distance;      // overlap depth
+                vec3 n = delta / distance;
+                float penetration = contactDistance - distance;
 
-                // Accumulate correction and normal (0.99 per your pattern)
                 accumulatedCorrection += n * (penetration * 0.99);
                 accumulatedNormal += n;
                 contactCount++;
@@ -73,13 +70,10 @@ void main() {
         }
 
         if (contactCount > 0) {
-            // Average normal
             vec3 averageNormal = normalize(accumulatedNormal);
 
-            // Apply the summed position correction once
             x_next += accumulatedCorrection;
 
-            // Reflect velocity about the averaged normal (energy-conserving)
             float vDotN = dot(v_next, averageNormal);
             v_next = v_next - 2.0 * vDotN * averageNormal;
 
@@ -119,11 +113,9 @@ void main() {
         collisionCount += 1.0;
     }
     if (collisionCount >= float(uBounceThreshold)) {
-        framesLeft     = float(uBounceFrames); // start blink
-        collisionCount = 0.0;                  // reset the counter
+        framesLeft = float(uBounceFrames);
+        collisionCount = 0.0;
     }
 
-    // Store back; z is unused right now
     finalBounceData = vec3(collisionCount, framesLeft, 0.0);
-
 }

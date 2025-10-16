@@ -31,7 +31,7 @@ struct Config {
     glm::vec3 colorMaxSpeed = glm::vec3(0.8f, 0.0f, 0.0f);
 
     //Task 2.2
-    bool  shadingEnabled = false;
+    bool shadingEnabled = false;
     float ambientCoefficient = 0.25f;
 
     //Task 3.1

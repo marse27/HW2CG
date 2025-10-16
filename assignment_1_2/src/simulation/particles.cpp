@@ -196,12 +196,12 @@ void ParticlesSimulator::draw(const glm::mat4& viewProjection) {
     glUniform3fv(drawPass.getUniformLocation("containerCenter"), 1, glm::value_ptr(config.sphereCenter));
     // ===== Part 2: Drawing =====
 
-    glUniform1i (drawPass.getUniformLocation("uShadingEnabled"),  config.shadingEnabled ? 1 : 0);
-    glUniform1i (drawPass.getUniformLocation("uUseSpeedColor"),   config.useSpeedColor ? 1 : 0);
-    glUniform1f (drawPass.getUniformLocation("uSpeedMax"),        config.speedMax);
+    glUniform1i (drawPass.getUniformLocation("uShadingEnabled"), config.shadingEnabled ? 1 : 0);
+    glUniform1i (drawPass.getUniformLocation("uUseSpeedColor"),  config.useSpeedColor ? 1 : 0);
+    glUniform1f (drawPass.getUniformLocation("uSpeedMax"), config.speedMax);
     glUniform3fv(drawPass.getUniformLocation("uColorStationary"), 1, glm::value_ptr(config.colorStationary));
-    glUniform3fv(drawPass.getUniformLocation("uColorMaxSpeed"),   1, glm::value_ptr(config.colorMaxSpeed));
-    glUniform1f (drawPass.getUniformLocation("uAmbientCoeff"),    config.ambientCoefficient);
+    glUniform3fv(drawPass.getUniformLocation("uColorMaxSpeed"), 1, glm::value_ptr(config.colorMaxSpeed));
+    glUniform1f (drawPass.getUniformLocation("uAmbientCoeff"), config.ambientCoefficient);
 
     //Task 3.1
     glUniform1i (drawPass.getUniformLocation("uUseBounceColor"), config.useBounceColor ? 1 : 0);
